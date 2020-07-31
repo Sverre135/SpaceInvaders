@@ -8,6 +8,8 @@ let level = 1;
 let myStorage = window.localStorage;
 let lives = 3;
 let menu = true;
+let powerups = [];
+let maxBullets = 4;
 
 
 function getHighscore() {
@@ -43,6 +45,34 @@ function setupAliens() {
       aliens.push(new Alien(50 + index * 50, 50 + rad * 30))
     }
   }
+}
+
+function drawPowerups() {
+  for (let index = powerups.length - 1; index >= 0; index--) {
+    powerups[index].show();
+    powerups[index].update();
+
+    if (powerups[index].pos.y < 0) {
+      //bullets.splice(index, 1);
+      powerups[index].skalSlettes = true;
+
+
+    }
+  }
+
+  for (let index = powerups.length - 1; index >= 0; index--) {
+      if (spiller.getCenter().dist(powerups[index].pos) < 18) {
+        //    aliens.splice(index, 1);
+        //  bullets.splice(indexb, 1);
+        score += 1000;
+        maxBullets += 1;
+        powerups[index].skalSlettes = true;;
+        if (floor(random(5)) == 1) {
+          lives += 1
+        }
+      }
+  }
+
 }
 
 function drawBullets() {
@@ -110,6 +140,13 @@ function slettFigurer() {
       bullets.splice(indexB, 1);
     }
   }
+
+  for (let indexP = powerups.length - 1; indexP >= 0; indexP--) {
+    if (powerups[indexP].skalSlettes) {
+      powerups.splice(indexP, 1);
+    }
+  }
+
 }
 
 
@@ -142,6 +179,7 @@ if (menu) {
 }
     drawAliens();
     drawBullets();
+    drawPowerups();
     textSize(15);
     fill(255);
     text("Score: " + score, 20, 20);
@@ -167,6 +205,9 @@ if (menu) {
     setupAliens()
   }
 
+  if (random(3000) < 1) {
+    powerups.push(new Powerup(random(400), 0, -4))
+  }
 }
 
 function keyPressed() {
@@ -179,7 +220,7 @@ function keyPressed() {
   }
 
   if (keyCode === UP_ARROW) {
-    if (bullets.length <= 4) {
+    if (bullets.length <= maxBullets) {
       bullets.push(new Bullet(spiller.pos.x + 25, spiller.pos.y, 10));
     }
   }
