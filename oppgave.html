@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+
+</head>
+
+<body>
+  <script>
+    let liste = [];
+    liste.push("Hest")
+    liste.push("Ape")
+    liste.push("Hund")
+    liste.push("Katt")
+    let farge = [];
+    farge.push("sort")
+    farge.push("hvit")
+    farge.push("blå")
+    farge.push("rød")
+    farge.push("grønn")
+
+    for (let index = liste.length - 1; index >= 0; index--) {
+      for (let indexb = farge.length - 1; indexb >= 0; indexb--) {
+      console.log(farge[indexb]+" "+liste[index])
+    }
+    }
+  </script>
+</body>
+
+</html>
